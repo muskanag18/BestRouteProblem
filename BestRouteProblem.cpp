@@ -1,14 +1,17 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <limits>
-#include <cfloat>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 // Assumptions:
 // Please refer readme file
+
+//Sample Cases
+// Location R1 = {"R1", 12.9352, 77.6245}; // Restaurant for C1
+// Location R2 = {"R2", 12.9226, 77.6559}; // Restaurant for C2
+// vector<Order> orders = {
+//     {"C1", R1, 15}, // Order from C1 at R1 with prep time 15 mins
+//     {"C2", R2, 20}  // Order from C2 at R2 with prep time 20 mins
+// };
+
 
 struct Location {
     string name;
@@ -83,17 +86,35 @@ pair<vector<Order>, double> find_shortest_path(DeliveryExecutive de, vector<Orde
 }
 
 int main() {
-    Location R1 = {"R1", 12.9352, 77.6245}; // Restaurant for C1
-    Location R2 = {"R2", 12.9226, 77.6559}; // Restaurant for C2
     
-    // Location R3 = {"R3", 12.9456, 77.6546}; // Restaurant for C3     //To Add more restaurants/customers
-
-    vector<Order> orders = {
-        {"C1", R1, 15}, // Order from C1 at R1 with prep time 15 mins
-        {"C2", R2, 20}  // Order from C2 at R2 with prep time 20 mins
-        // {"C3", R3, 35}  // Order from C3 at R3 with prep time 35 mins
-    };
-
+    int n;
+    cout<<"Input the number of restaurants: ";
+    cin>>n;
+    
+    vector<Location> resto;
+    vector<Order> orders;
+    
+    cout<<"Enter restaurants details: ";
+    string name;
+    double lat, lan;
+    for(int i=0;i<n;i++)
+    {
+        cin>>name;
+        cin>>lat;
+        cin>>lan;
+        Location restaurant = {name, lat, lan}; // Restaurant distance
+        resto.push_back(restaurant);
+    }
+    
+    int prep_time;
+    for(int i=0;i<n;i++)
+    {
+        cout<<"Enter preparation time for restaurant: ";
+        cin>>prep_time;
+        orders.push_back({"C" + to_string(i+1), resto[i], prep_time});
+    }
+    
+    cout<<endl;
     DeliveryExecutive aman = {"Aman", 12.9242, 77.6227}; // Aman's initial location
 
     // Find shortest path for Aman to deliver orders
