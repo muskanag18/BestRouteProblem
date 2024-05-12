@@ -87,31 +87,37 @@ pair<vector<Order>, double> find_shortest_path(DeliveryExecutive de, vector<Orde
 
 int main() {
     
-    int n;
-    cout<<"Input the number of restaurants: ";
-    cin>>n;
+    int totalRestro = 2;
     
-    vector<Location> resto;
+    queue<Location> resto;
     vector<Order> orders;
     
     cout<<"Enter restaurants details: ";
     string name;
     double lat, lan;
-    for(int i=0;i<n;i++)
+    while(resto.size() < totalRestro)
     {
         cin>>name;
         cin>>lat;
         cin>>lan;
         Location restaurant = {name, lat, lan}; // Restaurant distance
-        resto.push_back(restaurant);
+        resto.push(restaurant);
+        
+        if(resto.size() >= totalRestro)
+        {
+            cout<<"Sorry, cannot accomodate more restaurants!"<<endl;
+            break;
+        }
     }
     
-    int prep_time;
-    for(int i=0;i<n;i++)
+    
+    int prep_time, k = 1;
+    cout<<"Enter preparation time for restaurant: ";
+    while(!resto.empty())
     {
-        cout<<"Enter preparation time for restaurant: ";
         cin>>prep_time;
-        orders.push_back({"C" + to_string(i+1), resto[i], prep_time});
+        orders.push_back({"C" + to_string(k++), resto.front(), prep_time});
+        resto.pop();
     }
     
     cout<<endl;
